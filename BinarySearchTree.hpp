@@ -111,10 +111,30 @@ public:
   // Remove x from the tree. Nothing is done if x is not found.
   void remove(const Comparable &x) { remove(x, root); }
 
+  // ........  ..........  .........  ........ ........ .........
+  //IMPLEMENT BFT  (returns a string corresponding to the BFT)
   string BFT() const {
     string st;
+    if (root == nullptr)
+    return; 
+
+    queue <pair<BinaryNode*, int>> Q; //se declara un queue de pares que contiene puntero q representa el nodo y nivel
+    Q.push({root, 0}); 
+
+    while (!Q.empty()){
+      BinaryNode* curr = Q.front(); //obtener el primer nodo
+      q.pop(); //eliminar el primer nodo 
+
+      cout << curr -> element << " ";
+
+      if (curr -> left != nullptr)Q.push (curr -> left); //si tiene un hijo izquierdo, añade por la izq
+      if (curr -> right != nullptr) Q.push (curr -> right); //si tiene un hijo derecho, añade por la derecha
+      
+    }
+
     return st;
   }
+// ...... ....... ...... ...... ...... ....... ........ ........... ............ ............. ......... ......... .....
 
 private:
   struct BinaryNode {
@@ -277,6 +297,10 @@ private:
     else
       return new BinaryNode{t->element, clone(t->left), clone(t->right)};
   }
+
+  //
+
+
 };
 
 #endif
