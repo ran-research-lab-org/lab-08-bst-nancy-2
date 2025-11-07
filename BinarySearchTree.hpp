@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <queue>
 using namespace std;
 
 template <typename T> string toStr(const T &value) {
@@ -111,28 +112,41 @@ public:
   // Remove x from the tree. Nothing is done if x is not found.
   void remove(const Comparable &x) { remove(x, root); }
 
-  // ........  ..........  .........  ........ ........ .........
+  // ........  ..........  .........  ........ ........ ......... ............. .............. ......... ..........
+
   //IMPLEMENT BFT  (returns a string corresponding to the BFT)
   string BFT() const {
-    string st;
-    if (root == nullptr)
-    return; 
+    queue <pair<BinaryNode*, int>> Q; //se declara un queue de pares que contiene ptr q representa el nodo y un entero q representa  el nivel
+    if (root != nullptr){
+      Q.push({root,0});
+    }
 
-    queue <pair<BinaryNode*, int>> Q; //se declara un queue de pares que contiene puntero q representa el nodo y nivel
-    Q.push({root, 0}); 
+    vector<vector <int>> V; //vector de vectores para almacenar los pares [root],[n1,n2]
+    
 
     while (!Q.empty()){
-      BinaryNode* curr = Q.front(); //obtener el primer nodo
-      q.pop(); //eliminar el primer nodo 
+      pair<BinaryNode*, int> P = Q.front(); //se almacena ek front en otro par 
+      BinaryNode* node = P.first; //declaramos puntero que apunta al primer del par
+      int level = P.second;  //delcaramos variable que almacena niveles en el par
+      Q.pop(); //eliminar el primer nodo 
 
-      cout << curr -> element << " ";
 
-      if (curr -> left != nullptr)Q.push (curr -> left); //si tiene un hijo izquierdo, añade por la izq
-      if (curr -> right != nullptr) Q.push (curr -> right); //si tiene un hijo derecho, añade por la derecha
+      if (node -> left != nullptr)
+        Q.push (node -> left, level + 1); //si tiene un hijo izquierdo, añade por la izq y aumenta el nivel por 1 
+      if (node -> right != nullptr) 
+        Q.push (node -> right, level + 1); //si tiene un hijo derecho, añade por la derecha y aumenta el nivel por 1
       
     }
 
-    return st;
+    //string matriz dinamica = vector de vectores... 
+    for(unsigned int i = 0; i < V.size(); i++){
+      for(unsigned int j = 0; j< V.size(); j++){
+        cout << V[i][j] <<" ";
+      }
+      cout << "]";
+    }
+
+    return ;
   }
 // ...... ....... ...... ...... ...... ....... ........ ........... ............ ............. ......... ......... .....
 
